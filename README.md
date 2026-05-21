@@ -99,6 +99,24 @@ docker compose up --build
 
 ---
 
+## 🔌 Portas / Acessos
+
+Após subir com:
+
+```bash
+docker compose up --build
+```
+
+A aplicação ficará disponível em:
+
+- **Interface Web (frontend):** `http://localhost:8080/`
+- **API REST (base):** `http://localhost:8080/produtos`
+- **Healthcheck (Actuator):** `http://localhost:8080/actuator/health`
+- **MySQL (acesso externo):** `localhost:3306`
+  - Database: `cp3_devops`
+  - User: `maicon`
+  - Password: `rm5611279`
+
 ## 🗄️ Banco de Dados (MySQL)
 
 O `docker-compose.yml` sobe um MySQL 8.0 com:
