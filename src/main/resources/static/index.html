@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Arsenal - Espadachim Negro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <!-- SVG da Marca do Sacrifício estilizada -->
+        <svg class="brand-icon" viewBox="0 0 100 100">
+            <!-- Linha central e lança -->
+            <path d="M50 15 L50 90 M50 15 L40 30 M50 15 L60 30" />
+            <!-- Arcos laterais e cruzamentos -->
+            <path d="M30 40 L50 15 L70 40 M20 60 L50 30 L80 60" />
+        </svg>
+        <h1>Arsenal<span>.</span>Negro</h1>
+    </div>
+</header>
+
+<main>
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Gestão de <em>Armamentos</em></h1>
+            <p class="count-badge" id="count-label">— equipamentos forjados</p>
+        </div>
+    </div>
+
+    <div class="form-panel">
+        <h2>Forjar Novo Equipamento</h2>
+        <div class="form-grid">
+            <div class="field">
+                <label>Arma / Item</label>
+                <input id="inp-nome" type="text" placeholder="ex: Dragon Slayer" />
+            </div>
+            <div class="field" style="grid-column: span 2">
+                <label>Descrição</label>
+                <input id="inp-descricao" type="text" placeholder="ex: Uma massa de ferro disforme..." />
+            </div>
+            <div class="field">
+                <label>Valor (Prata)</label>
+                <input id="inp-preco" type="number" step="1" placeholder="500" />
+            </div>
+            <div class="field">
+                <label>Em Estoque</label>
+                <input id="inp-quantidade" type="number" placeholder="1" />
+            </div>
+            <button class="btn btn-primary" onclick="criarProduto()">+ Forjar</button>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <div class="table-toolbar">
+            <h2>Inventário</h2>
+            <div class="search-wrap">
+                <span class="search-icon">⚔️</span>
+                <input id="search" type="text" placeholder="Buscar no abismo..." oninput="filtrarTabela()" />
+            </div>
+        </div>
+        <div id="table-container" style="overflow-x: auto;">
+            <!-- A tabela será injetada aqui pelo JavaScript -->
+        </div>
+    </div>
+</main>
+
+<div class="modal-backdrop" id="modal">
+    <div class="modal">
+        <h2>Alterar Equipamento</h2>
+        <input type="hidden" id="edit-id" />
+        <div class="field">
+            <label>Arma / Item</label>
+            <input id="edit-nome" type="text" />
+        </div>
+        <div class="field">
+            <label>Descrição</label>
+            <input id="edit-descricao" type="text" />
+        </div>
+        <div class="field">
+            <label>Valor (Prata)</label>
+            <input id="edit-preco" type="number" step="1" />
+        </div>
+        <div class="field">
+            <label>Em Estoque</label>
+            <input id="edit-quantidade" type="number" />
+        </div>
+        <div class="form-actions">
+            <button class="btn btn-ghost" onclick="fecharModal()">Cancelar</button>
+            <button class="btn btn-primary" onclick="salvarEdicao()">Reforjar</button>
+        </div>
+    </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
