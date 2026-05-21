@@ -148,20 +148,3 @@ Arquivo: `src/main/resources/application.properties`
 Maicon Douglas  
 RM: 561279  
 Turma: 2TDSPW
-
-flowchart LR
-  U[Usuário / Browser / Postman] -->|HTTP :8080| APP[Container: api-produto\nSpring Boot]
-
-  subgraph APP[api-produto (Spring Boot)]
-    WEB[Static UI\nsrc/main/resources/static\n/]
-    API[REST API\n/produtos]
-    ACT[Actuator\n/actuator/health]
-    CTRL[Controller\nProdutoController]
-    SVC[Service\nProdutoService]
-    REP[Repository\nProdutoRepository (JPA)]
-    ENT[Entity\nProduto]
-    API --> CTRL --> SVC --> REP --> ENT
-  end
-
-  APP -->|JDBC 3306| DB[(Container: mysql\nDatabase: cp3_devops)]
-  DB --> VOL[(Volume: database-volume)]
