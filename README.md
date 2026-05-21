@@ -1,138 +1,132 @@
-# ⚔️ Arsenal de Berserk (CLYVO VET)
+# ⚔️ API Produtos — Arsenal de Berserk
 
-API REST épica desenvolvida com Java + Spring Boot para gerenciamento de armamentos (entidades), utilizando Oracle Database como banco de dados e Docker para containerização da aplicação.
+API REST em **Java 21 + Spring Boot** para gerenciamento de **produtos (armamentos)**, com **persistência em MySQL** e execução via **Docker Compose**.
 
-A aplicação possui:
-- CRUD completo de equipamentos (Pets)
-- Interface visual sombria inspirada em Berserk
-- Persistência de dados inabalável com Oracle XE 21c
-- Deploy em máquina virtual Azure utilizando Docker Compose
-
----
-
-# ☁️ Infraestrutura Cloud (Azure)
-
-A forja do ferreiro Godot está hospedada em uma máquina virtual Ubuntu na Microsoft Azure.
-
-## 📌 Informações da VM
-
-| Configuração | Valor |
-|---|---|
-| Resource Group | `rg-challenge-clyvo-vet` |
-| Região | `brazilsouth` |
-| VM | `vm-wise-clyvo-dev-01` |
-| Sistema Operacional | Ubuntu 22.04 |
-| Tamanho | `Standard_B4ls_v2` |
-| IP Público | `20.201.77.100` |
+A aplicação inclui:
+- CRUD completo de produtos
+- Interface Web estática (servida pelo próprio Spring em `/`)
+- Banco MySQL 8.0 via Docker
+- Healthcheck via Spring Boot Actuator (`/actuator/health`)
 
 ---
 
-# 🐳 Containers Docker
+## ✅ Tecnologias
 
-A infraestrutura utiliza Docker Compose com dois containers em rede isolada:
-
-| Container | Descrição |
-|---|---|
-| `portalweb` | Aplicação Spring Boot (Sem privilégios de root) |
-| `oracle-db` | Banco de dados Oracle XE 21 (Com volume nomeado) |
+- Java **21**
+- Spring Boot **3.x**
+- Spring Web
+- Spring Data JPA (Hibernate)
+- MySQL Connector/J
+- Spring Boot Actuator
+- Docker + Docker Compose
 
 ---
 
-# 🌐 Endpoints da API
+## 📦 Estrutura do projeto (resumo)
+
+- `src/main/java/...` — API REST (Controller/Service/Repository/Model)
+- `src/main/resources/application.properties` — configuração do datasource/actuator
+- `src/main/resources/static/` — interface web (HTML/CSS/JS)
+- `Dockerfile` — build e runtime da aplicação
+- `docker-compose.yml` — sobe MySQL + aplicação
+
+---
+
+## 🌐 Endpoints da API
+
+Base: `http://localhost:8080`
 
 | Método | Endpoint | Descrição |
 |---|---|---|
-| `GET` | `/api/pets` | Inspeciona todos os equipamentos |
-| `POST` | `/api/pets` | Forja um novo equipamento |
-| `PUT` | `/api/pets/{id}` | Reforja um equipamento existente |
-| `DELETE` | `/api/pets/{id}` | Consome um equipamento pelo ID (Sacrifício) |
+| `GET` | `/produtos` | Lista todos os produtos |
+| `GET` | `/produtos/{id}` | Busca produto por ID |
+| `POST` | `/produtos` | Cria um produto |
+| `PUT` | `/produtos/{id}` | Atualiza um produto |
+| `DELETE` | `/produtos/{id}` | Remove um produto |
+
+### Exemplo de JSON (POST/PUT)
+
+```json
+{
+  "nome": "Dragon Slayer",
+  "descricao": "Massa de ferro pesada e bruta.",
+  "preco": 15000,
+  "quantidade": 1
+}
+```
 
 ---
 
-# 🖥️ Interface Web
+## 🖥️ Interface Web
 
-A aplicação possui um frontend interativo imersivo para o gerenciamento do inventário do arsenal.
+- URL: `http://localhost:8080/`
 
-![Interface Web](./assets/interface.png)
-
-## Funcionalidades
-
-- Forja (Cadastro) de novos itens
-- Inventário (Tabela) em tempo real
-- Rastreio (Busca) dinâmico
-- Reforja (Edição) de atributos
-- Sacrifício (Exclusão) definitiva
+A interface é servida pelo próprio Spring Boot a partir de `src/main/resources/static`.
 
 ---
 
-# 🗄️ Banco de Dados
+## ❤️ Healthcheck (Actuator)
 
-Banco utilizado:
+- URL: `http://localhost:8080/actuator/health`
 
-- Oracle Database XE 21 Slim
+---
 
-## Configurações da aplicação
+## 🐳 Executando com Docker Compose (recomendado)
 
-Arquivo:
+### Pré-requisitos
+- Docker Desktop (em **Linux containers / WSL2** no Windows)
+
+### Subir o ambiente
+Na raiz do projeto:
 
 ```bash
-src/main/resources/application.properties
+docker compose up --build
+```
 
-🚀 Executando o Projeto
-Pré-requisitos
-Docker
+### Parar e remover containers
+```bash
+docker compose down
+```
 
-Docker Compose
+### Resetar o banco (apaga o volume e recria do zero)
 
-Executar localmente
-Na raiz do projeto execute:
+> Use se você mudar schema/config e quiser “zerar” tudo.
 
-Bash
-docker compose up --build -d
-Acessar aplicação
-Interface Web
-Bash
-[http://20.201.77.100:8080](http://20.201.77.100:8080)
-API REST
-Bash
-[http://20.201.77.100:8080/api/pets](http://20.201.77.100:8080/api/pets)
-🐳 Docker Hub
-Imagem publicada no Docker Hub:
+```bash
+docker compose down -v
+docker compose up --build
+```
 
-Bash
-maicon/challenge-clyvo-vet:v1.0
-📦 Estrutura do Projeto
-Bash
-clyvovet/
-│
-├── src/
-├── Dockerfile
-├── docker-compose.yml
-├── setup-azure.sh
-├── pom.xml
-├── README.md
-└── assets/
-    └── interface.png
-🛠️ Tecnologias Utilizadas
-Java 17
+---
 
-Spring Boot 3
+## 🗄️ Banco de Dados (MySQL)
 
-Spring Data JPA
+O `docker-compose.yml` sobe um MySQL 8.0 com:
 
-Oracle Database 21c
+- Porta local: `3306`
+- Database: `cp3_devops`
+- User: `maicon`
+- Password: `rm5611279`
 
-Docker
+> Dica: você pode conectar via DBeaver/MySQL Workbench em `localhost:3306`.
 
-Docker Compose
+---
 
-Microsoft Azure
+## ⚙️ Configuração (application.properties)
 
-Maven
+Arquivo: `src/main/resources/application.properties`
 
-👨‍💻 Desenvolvedor
-Nome: Maicon Douglas
+- A aplicação lê as variáveis do banco via environment (definidas no compose):
+  - `MYSQL_HOST`
+  - `MYSQL_PORT`
+  - `MYSQL_DATABASE`
+  - `MYSQL_USER`
+  - `MYSQL_PASSWORD`
 
-RM: 561279
+---
 
+## 👨‍💻 Autor
+
+Maicon Douglas  
+RM: 561279  
 Turma: 2TDSPW
