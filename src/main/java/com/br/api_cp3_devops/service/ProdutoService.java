@@ -21,7 +21,9 @@ public class ProdutoService {
 
     public Produto buscarPorId(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado com id: " + id));
+                .orElseThrow(() -> new org.springframework.web.server.ResponseStatusException(
+                        org.springframework.http.HttpStatus.NOT_FOUND,
+                        "Produto não encontrado com id: " + id));
     }
 
     public Produto salvar(Produto produto) {
