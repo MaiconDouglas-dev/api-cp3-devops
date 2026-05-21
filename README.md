@@ -148,23 +148,3 @@ Arquivo: `src/main/resources/application.properties`
 Maicon Douglas  
 RM: 561279  
 Turma: 2TDSPW
-
-## 🧱 Arquitetura (visão geral)
-
-```mermaid
-flowchart LR
-  U[Usuário / Browser / Postman] -->|HTTP :8080| APP[Container: api-produto\nSpring Boot]
-
-  subgraph APP[api-produto (Spring Boot)]
-    WEB[Interface Web (Static)\n/]
-    API[API REST\n/produtos]
-    ACT[Actuator\n/actuator/health]
-    CTRL[Controller\nProdutoController]
-    SVC[Service\nProdutoService]
-    REP[Repository\nProdutoRepository (JPA)]
-    ENT[Entidade\nProduto]
-    API --> CTRL --> SVC --> REP --> ENT
-  end
-
-  APP -->|JDBC :3306| DB[(Container: mysql\nDB: cp3_devops)]
-  DB --> VOL[(Volume: database-volume)]
