@@ -1,65 +1,50 @@
 version: '3.8'
 
 services:
-
-  # Serviço do banco de dados MySQL
   mysql:
     image: mysql:8.0
     container_name: mysql
     restart: always
-    # Variáveis de ambiente do MySQL
     environment:
       MYSQL_ROOT_PASSWORD: 301199
       MYSQL_DATABASE: cp3_devops
       MYSQL_USER: maicon
       MYSQL_PASSWORD: rm5611279
-    # Porta do container exposta para máquina local
     ports:
       - "3306:3306"
-    # Volume para persistência dos dados
     volumes:
       - database-volume:/var/lib/mysql
-    # Rede usada pelos containers
     networks:
       - api-produto-network
-    # Comando de inicialização do MySQL
     command: --default-authentication-plugin=mysql_native_password
-
-    # Verifica se o banco está saudável
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
 
-  # Serviço da aplicação Spring Boot
   api-produto:
-    image: maicondouglas/api-cp3-devops:v1.0
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: api-produto
     restart: always
-    # Variáveis usadas pela aplicação
     environment:
       MYSQL_HOST: mysql
       MYSQL_PORT: 3306
+      MYSQL_DATABASE: cp3_devops
       MYSQL_USER: maicon
       MYSQL_PASSWORD: rm5611279
-
-    # Porta da aplicação
     ports:
       - "8080:8080"
-    # Aguarda o banco ficar pronto
     depends_on:
       mysql:
         condition: service_healthy
-    # Rede compartilhada entre containers
     networks:
       - api-produto-network
 
-
-# Rede Docker personalizada
 networks:
   api-produto-network:
 
-# Volume persistente do banco
 volumes:
   database-volume:
