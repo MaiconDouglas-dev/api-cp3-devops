@@ -143,8 +143,13 @@ Arquivo: `src/main/resources/application.properties`
 
 ---
 
-## 👨‍💻 Autor
-
+## 👨‍💻 Autores
+Evellyn Ferreira
+RM: 562744
+----------------
+Herique S.Maran
+RM: 562977
+----------------
 Maicon Douglas  
 RM: 561279  
 Turma: 2TDSPW
