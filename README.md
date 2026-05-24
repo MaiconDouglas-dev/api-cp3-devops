@@ -144,10 +144,10 @@ Arquivo: `src/main/resources/application.properties`
 ---
 
 ## 👨‍💻 Autores
-Evellyn Ferreira
+Evellyn Ferreira 
 RM: 562744
 
-Herique S.Maran
+Herique S.Maran 
 RM: 562977
 
 Maicon Douglas  
